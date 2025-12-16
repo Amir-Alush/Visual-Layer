@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Layer | AI-Powered Visual Data Platform on Google Cloud</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        :root {
+            --primary-blue: #1a73e8;
+            --google-red: #ea4335;
+            --google-yellow: #fbbc04;
+            --google-green: #34a853;
+            --dark-bg: #0f172a;
+            --light-bg: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --vl-accent: #7c3aed;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1e293b 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, var(--vl-accent), var(--primary-blue));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, white, #c7d2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+        }
+        
+        .nav-links .highlight {
+            color: var(--google-yellow);
+            font-weight: 600;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 5rem 0 3rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1.5rem;
+        }
+        
+        .hero h1 {
+            font-size: 3.2rem;
+            background: linear-gradient(to right, var(--primary-blue), var(--vl-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            max-width: 800px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            max-width: 700px;
+        }
+        
+        .cloud-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-top: 10px;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+        
+        /* Video Section */
+        .video-section {
+            padding: 4rem 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-size: 2.2rem;
+            color: var(--dark-bg);
+        }
+        
+        .video-container {
+            max-width: 900px;
+            margin: 0 auto 2rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            background-color: var(--dark-bg);
+        }
+        
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .video-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .video-fallback i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--google-red);
+        }
+        
+        /* Integration Section */
+        .integration-section {
+            padding: 4rem 0;
+            background-color: var(--light-bg);
+        }
+        
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .integration-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--primary-blue);
+        }
+        
+        .integration-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .integration-card.gcp-red {
+            border-top-color: var(--google-red);
+        }
+        
+        .integration-card.gcp-green {
+            border-top-color: var(--google-green);
+        }
+        
+        .integration-card.gcp-yellow {
+            border-top-color: var(--google-yellow);
+        }
+        
+        .integration-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-blue), #a5b4fc);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        .integration-card.gcp-red .integration-icon {
+            background: linear-gradient(135deg, var(--google-red), #fca5a5);
+        }
+        
+        .integration-card.gcp-green .integration-icon {
+            background: linear-gradient(135deg, var(--google-green), #86efac);
+        }
+        
+        .integration-card.gcp-yellow .integration-icon {
+            background: linear-gradient(135deg, var(--google-yellow), #fde047);
+        }
+        
+        .integration-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--dark-bg);
+        }
+        
+        .integration-card p {
+            color: var(--text-light);
+        }
+        
+        /* Architecture Diagram */
+        .architecture-section {
+            padding: 4rem 0;
+            background-color: white;
+        }
+        
+        .architecture-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .architecture-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-blue);
+        }
+        
+        .architecture-item.gcp {
+            border-left-color: var(--google-red);
+        }
+        
+        .architecture-item.vl {
+            border-left-color: var(--vl-accent);
+        }
+        
+        .architecture-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--light-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+        }
+        
+        .architecture-item.gcp .architecture-icon {
+            color: var(--google-red);
+        }
+        
+        .architecture-item.vl .architecture-icon {
+            color: var(--vl-accent);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1e293b 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-blue), #4285f4);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(26, 115, 232, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid #475569;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: #94a3b8;
+            padding: 3rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h4 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .nav-links {
+                gap: 1.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo-icon">VL</div>
+                    <div class="logo-text">Visual Layer</div>
+                </div>
+                <nav class="nav-links">
+                    <a href="#video">Platform Demo</a>
+                    <a href="#integration">Google Cloud Integration</a>
+                    <a href="#architecture">Architecture</a>
+                    <a href="#contact" class="highlight">Get Free Trial</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>AI-Powered Visual Data Platform on Google Cloud</h1>
+                <p class="hero-subtitle">
+                    Visual Layer integrates seamlessly with Google Cloud to transform unstructured image and video data into actionable insights at scale. 
+                    Our platform empowers enterprises to organize, explore, enrich, and extract value from petabytes of visual data.
+                </p>
+                <div class="cloud-badge">
+                    <i class="fab fa-google"></i>
+                    <span>Google Cloud Partner Solution</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section" id="video">
+        <div class="container">
+            <h2 class="section-title">Visual Layer Platform in Action</h2>
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <!-- Direct video embed -->
+                    <video controls width="100%" height="100%" poster="https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
+                        <source src="https://vl-video-assets.nyc3.cdn.digitaloceanspaces.com/vl-video/train_v2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    
+                    <!-- Fallback if video fails to load -->
+                    <div class="video-fallback" style="display: none;">
+                        <i class="fas fa-play-circle"></i>
+                        <h3>Visual Layer Platform Demo</h3>
+                        <p>Video loading or format not supported. <a href="https://vl-video-assets.nyc3.cdn.digitaloceanspaces.com/vl-video/train_v2.mp4" style="color: #a5b4fc;">Download directly</a></p>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; color: var(--text-light); max-width: 800px; margin: 0 auto;">
+                See how Visual Layer's AI-powered platform processes massive visual datasets, uncovers hidden patterns, and integrates with Google Cloud services for scalable insights.
+            </p>
+        </div>
+    </section>
+
+    <!-- Integration Section -->
+    <section class="integration-section" id="integration">
+        <div class="container">
+            <h2 class="section-title">Seamless Google Cloud Integration</h2>
+            <div class="integration-grid">
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Data Ingestion & Storage</h3>
+                    <p>Direct integration with Google Cloud Storage, BigQuery, and Cloud SQL for secure, scalable data lakes. Ingest unstructured images and videos from multiple sources into a unified visual data repository.</p>
+                </div>
+                
+                <div class="integration-card gcp-red">
+                    <div class="integration-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI & Machine Learning</h3>
+                    <p>Leverage Google Vertex AI for model training and inference. Our VL Index engine processes multimodal embeddings to uncover hidden relationships within massive visual datasets.</p>
+                </div>
+                
+                <div class="integration-card gcp-green">
+                    <div class="integration-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Compute & Processing</h3>
+                    <p>Run our proprietary C++ graph engine on Google Compute Engine for efficient processing. Deploy with Cloud Run or GKE for scalable, serverless visual data analytics pipelines.</p>
+                </div>
+                
+                <div class="integration-card gcp-yellow">
+                    <div class="integration-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Visualization & Analytics</h3>
+                    <p>Integrate with Looker Studio for interactive dashboards and visual analytics. Provide natural language queries, similarity search, and advanced filters for data exploration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="architecture-section" id="architecture">
+        <div class="container">
+            <h2 class="section-title">End-to-End Architecture on Google Cloud</h2>
+            <div class="architecture-container">
+                <div class="architecture-item gcp">
+                    <div class="architecture-icon">
+                        <i class="fab fa-google-drive"></i>
+                    </div>
+                    <div>
+                        <h3>Google Cloud Storage</h3>
+                        <p>Raw visual data ingestion from cloud buckets, on-premises systems, and IoT devices</p>
+                    </div>
+                </div>
+                
+                <div class="architecture-item vl">
+                    <div class="architecture-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div>
+                        <h3>Visual Layer Processing Engine</h3>
+                        <p>VL Index graph engine processes multimodal embeddings on Google Compute Engine</p>
+                    </div>
+                </div>
+                
+                <div class="architecture-item gcp">
+                    <div class="architecture-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div>
+                        <h3>Vertex AI Integration</h3>
+                        <p>AI model training, fine-tuning, and inference with foundation models</p>
+                    </div>
+                </div>
+                
+                <div class="architecture-item vl">
+                    <div class="architecture-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div>
+                        <h3>Visual Data Exploration</h3>
+                        <p>Natural language queries, similarity search, clustering, and interactive visualization</p>
+                    </div>
+                </div>
+                
+                <div class="architecture-item gcp">
+                    <div class="architecture-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div>
+                        <h3>Looker Studio Dashboards</h3>
+                        <p>Business intelligence and actionable insights delivery</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Get Started with Visual Layer on Google Cloud</h2>
+                <p class="cta-subtitle">
+                    Try Visual Layer locally for free. No credit card required, no software to install. 
+                    Or get a personalized demo and see how we can help your organization extract insights from images and videos at scale.
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://visual-layer.xyz/" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-rocket"></i> Start Free Trial
+                    </a>
+                    <a href="mailto:amir@visual-layer.xyz" class="btn btn-secondary">
+                        <i class="fas fa-calendar-alt"></i> Request a Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Visual Layer</h4>
+                    <p>AI-powered visual data management platform that scales to billions of images and videos. Based in Tel Aviv, Israel.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#video">Platform Demo</a></li>
+                        <li><a href="#integration">Google Cloud Integration</a></li>
+                        <li><a href="#architecture">Solution Architecture</a></li>
+                        <li><a href="https://visual-layer.xyz/" target="_blank">Company Website</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-globe"></i> <a href="https://visual-layer.xyz/" target="_blank">visual-layer.xyz</a></li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:amir@visual-layer.xyz">amir@visual-layer.xyz</a></li>
+                        <li><i class="fas fa-map-marker-alt"></i> Tel Aviv, Israel</li>
+                        <li><i class="fab fa-google"></i> Google Cloud Partner</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Visual Layer. All rights reserved. | Google Cloud is a trademark of Google LLC.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Video fallback handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.querySelector('video');
+            const fallback = document.querySelector('.video-fallback');
+            
+            // Check if video loads successfully
+            video.addEventListener('error', function() {
+                console.log('Video failed to load, showing fallback');
+                fallback.style.display = 'flex';
+            });
+            
+            // Optional: Check after a timeout
+            setTimeout(function() {
+                if (video.readyState === 0) {
+                    console.log('Video not loaded after timeout, showing fallback');
+                    fallback.style.display = 'flex';
+                }
+            }, 3000);
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
